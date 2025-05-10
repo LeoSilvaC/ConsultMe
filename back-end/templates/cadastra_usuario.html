@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cadastro de Usuário</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Cadastro de Usuário</h1>
+    {% with mensagens = get_flashed_messages() %} {% if mensagens %}
+    <div class="mensagem">
+      {% for msg in mensagens %}
+      <p>{{ msg }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <form action="/cadastra_usuario" method="POST">
+      <label for="nome">Nome:</label>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        value="{{request.form.nome or ''}}"
+        required
+      /><br /><br />
+
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value=" {{request.form.email or ''}}"
+        required
+      /><br /><br />
+
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" name="senha" required /><br /><br />
+
+      <label for="tipo">Tipo de Usuário:</label>
+      <select id="tipo" name="tipo" required>
+        <option value="usuario">Usuário</option>
+        <option value="administrador">Administrador</option></select
+      ><br /><br />
+
+      <button type="submit">Cadastrar</button>
+    </form>
+  </body>
+</html>
