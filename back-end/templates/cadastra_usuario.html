@@ -9,7 +9,7 @@
     />
   </head>
   <body>
-    <h1>Cadastro de Usuário</h1>
+    <h2>Cadastro de Usuário</h1>
     {% with mensagens = get_flashed_messages() %} {% if mensagens %}
     <div class="mensagem">
       {% for msg in mensagens %}
@@ -43,10 +43,12 @@
       <label for="tipo">Tipo de Usuário:</label>
       <select id="tipo" name="tipo" required>
         <option value="usuario">Usuário</option>
-        <option value="administrador">Administrador</option></select
+        <option value="admin">Administrador</option></select
       ><br /><br />
-
-      <button type="submit">Cadastrar</button>
+        <div class="btns-finaliza">
+          <a href="/listar_usuarios"><button type="button">Cancelar</button></a>  
+          <button type="submit">Cadastrar</button>
+        </div>
     </form>
   </body>
 </html>

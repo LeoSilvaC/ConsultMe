@@ -1,0 +1,17 @@
+# Pasta de ambientes virtuais
+venv/
+
+# Arquivos de banco SQLite
+*.db
+*.sqlite3
+
+# Arquivos temporários do Python
+__pycache__/
+*.pyc
+
+# Configurações do VS Code
+.vscode/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

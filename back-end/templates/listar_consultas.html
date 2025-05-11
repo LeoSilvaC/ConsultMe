@@ -38,8 +38,13 @@
         </div>
       {% endif %}
     {% endwith %}
-    <h2>Consultas</h2>
-
+        <div class="header-btn">
+          <h2>Consultas</h2>
+          <div>
+            <a href="/cadastra_consulta"><button class="btn-nova-consulta">Nova Consulta</button></a>
+            <a href="/logout"><button class="btn-logout">Sair</button></a>
+          </div>
+        </div>
     <form class="form-pesquisa" action="">
       <input type="text" name="nome" value="{{ request.args.get('nome', '') }}" placeholder="Escreva o nome do paciente" id=""/>
       <input type="date" name="data" value="{{ request.args.get('data', '') }}" placeholder="Data" id=""/>
@@ -52,8 +57,11 @@
         <th>Especialidade</th>
         <th>Data</th>
         <th>Hora</th>
-        <th>Email</th>
-        <th>Ações</th>
+
+        {% if session['usuario_tipo'] == 'admin' %}
+          <th>Email</th>
+          <th>Ações</th>
+        {%endif%}
       </tr>
 
       {% for c in consultas %}
@@ -63,11 +71,13 @@
         <td>{{ c.especialidade }}</td>
         <td>{{ c.data }}</td>
         <td>{{ c.hora }}</td>
-        <td>{{ c.email }}</td>
-        <td>
-          <button onclick= "excluirConsulta('{{ c.id }}')" >Excluir</button>
-          <a href="/editar/{{ c.id }}"><button>Editar</button></a>
-        </td>
+        {% if session['usuario_tipo'] == 'admin' %}
+          <td>{{ c.email }}</td>
+          <td>
+            <button onclick= "excluirConsulta('{{ c.id }}')" >Excluir</button>
+            <a href="/editar_consulta/{{ c.id }}"><button>Editar</button></a>
+          </td>
+        {%endif%}
       </tr>
       {% endfor %}
     </table>
