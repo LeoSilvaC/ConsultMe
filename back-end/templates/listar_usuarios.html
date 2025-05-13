@@ -31,7 +31,7 @@
   </head>
   <body>
     <div id="mensagem" class="mensagem" style="display: none"></div>
-
+  
     {% with mensagens = get_flashed_messages() %} {% if mensagens %}
     <div class="mensagem">
       {% for msg in mensagens %}
@@ -40,7 +40,11 @@
     </div>
     {% endif %} {% endwith %}
     <div class="header-btn">
-      <h2>Usuarios</h2>
+      <div class="container-nav">
+        <h2>Usuarios</h2>{%if session['usuario_tipo'] == 'admin'%}
+          <a href="/listar_consultas"><button type="button">Consultas</button></a>
+        {%endif%}
+      </div>
       <div>
         <a href="/cadastra_usuario"><button class="btn-novo-usuario">Novo Usuario</button></a>
         <a href="/logout"><button class="btn-logout">Sair</button></a>

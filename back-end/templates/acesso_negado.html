@@ -3,12 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>Acesso Negado</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
   </head>
-  <body>
+  <body class="container">
     <h1>Acesso Negado</h1>
     <p>Você não tem permissão para acessar esta página.</p>
     <a href="{{ url_for('listar_consultas') }}">Voltar</a>

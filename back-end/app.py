@@ -25,7 +25,7 @@ def admin_required(f):
         tipo = session.get('usuario_tipo')
         if tipo is None or tipo.lower() != 'admin':
             flash("Somente administrador tem acesso a esta página!")
-            return redirect(url_for('efetua_login'))
+            return render_template('acesso_negado.html')
         return f(*args, **kwargs)
     return decorated_function
 
@@ -78,7 +78,6 @@ def cadastra_consulta():
 #Rota que lista as consultas agendadas
 @app.route('/listar_consultas', methods=['GET'])
 @login_required
-@admin_required
 def listar_consultas():
     nome = request.args.get('nome')
     data = request.args.get('data')
@@ -162,11 +161,15 @@ def efetua_login():
     return render_template('login.html')
 
 @app.route('/cadastro', methods=['GET'])
+@login_required
+@admin_required
 def exibe_formulario_usuario():
     return render_template('cadastra_usuario.html')
 
 #Cadastro de novo usuario
 @app.route('/cadastra_usuario', methods=["GET", "POST"])
+@login_required
+@admin_required
 def cadastra_usuario():
     if request.method == "POST":
         nome = request.form['nome']
@@ -193,6 +196,8 @@ def cadastra_usuario():
     return render_template('cadastra_usuario.html')
 
 @app.route('/listar_usuarios', methods=['GET'])
+@login_required
+@admin_required
 def listar_usuarios():
     nome = request.args.get('nome')
     usuarios = Usuario.query  
@@ -205,6 +210,8 @@ def listar_usuarios():
     return render_template('listar_usuarios.html', usuarios=usuarios)
 
 @app.route('/usuarios/<int:id>', methods=['DELETE'])
+@login_required
+@admin_required
 def excluir_usuario(id):
     usuario = Usuario.query.get(id)
     
@@ -217,11 +224,15 @@ def excluir_usuario(id):
 
 #Rota do formulário que edita um usuario
 @app.route('/editar_usuario/<int:id>', methods=["GET"])
+@login_required
+@admin_required
 def editar_usuario(id):
     usuario = Usuario.query.get_or_404(id)
     return render_template('editar_usuario.html', usuario=usuario)
 
 @app.route('/atualizar_usuario/<int:id>', methods=['POST'])
+@login_required
+@admin_required
 def atualizar_usuario(id):
     usuario = Usuario.query.get_or_404(id)
     

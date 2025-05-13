@@ -2,52 +2,64 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
     <title>Consultas Cadastradas</title>
     <script>
       async function excluirConsulta(id) {
         const confirmacao = confirm("Deseja mesmo excluir esta consulta?");
         if (!confirmacao) return;
-    
+
         const resposta = await fetch(`/consultas/${id}`, {
-          method: 'DELETE'
+          method: "DELETE",
         });
-    
+
         const resultado = await resposta.json();
-    
+
         const divMensagem = document.getElementById("mensagem");
         divMensagem.textContent = resultado.mensagem || resultado.erro;
-        divMensagem.style.display = 'block';
-    
+        divMensagem.style.display = "block";
+
         setTimeout(() => {
-          divMensagem.style.display = 'none';
+          divMensagem.style.display = "none";
           location.reload();
         }, 2000); // espera 2 segundos antes de recarregar
       }
     </script>
   </head>
   <body>
-    <div id="mensagem" class="mensagem" style="display: none;"></div>
-
-    {% with mensagens = get_flashed_messages() %}
-      {% if mensagens %}
-        <div class="mensagem">
-          {% for msg in mensagens %}
-            <p>{{ msg }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-        <div class="header-btn">
-          <h2>Consultas</h2>
-          <div>
-            <a href="/cadastra_consulta"><button class="btn-nova-consulta">Nova Consulta</button></a>
-            <a href="/logout"><button class="btn-logout">Sair</button></a>
-          </div>
-        </div>
+    <div id="mensagem" class="mensagem" style="display: none"></div>
+    <div class="header-btn">
+      <div class="container-nav">
+        <h2>Consultas</h2>
+        {%if session['usuario_tipo'] == 'admin'%}
+          <a href="/listar_usuarios"><button type="button">Usuarios</button></a>
+        {%endif%}
+      </div>
+      <div>
+        <a href="/cadastra_consulta"
+          ><button class="btn-nova-consulta">Nova Consulta</button></a
+        >
+        <a href="/logout"><button class="btn-logout">Sair</button></a>
+      </div>
+    </div>
     <form class="form-pesquisa" action="">
-      <input type="text" name="nome" value="{{ request.args.get('nome', '') }}" placeholder="Escreva o nome do paciente" id=""/>
-      <input type="date" name="data" value="{{ request.args.get('data', '') }}" placeholder="Data" id=""/>
+      <input
+        type="text"
+        name="nome"
+        value="{{ request.args.get('nome', '') }}"
+        placeholder="Escreva o nome do paciente"
+        id=""
+      />
+      <input
+        type="date"
+        name="data"
+        value="{{ request.args.get('data', '') }}"
+        placeholder="Data"
+        id=""
+      />
       <button type="submit">Buscar</button>
     </form>
 
@@ -59,24 +71,24 @@
         <th>Hora</th>
 
         {% if session['usuario_tipo'] == 'admin' %}
-          <th>Email</th>
-          <th>Ações</th>
+        <th>Email</th>
+        <th>Ações</th>
         {%endif%}
       </tr>
 
       {% for c in consultas %}
-      
+
       <tr>
         <td>{{ c.nome }}</td>
         <td>{{ c.especialidade }}</td>
         <td>{{ c.data }}</td>
         <td>{{ c.hora }}</td>
         {% if session['usuario_tipo'] == 'admin' %}
-          <td>{{ c.email }}</td>
-          <td>
-            <button onclick= "excluirConsulta('{{ c.id }}')" >Excluir</button>
-            <a href="/editar_consulta/{{ c.id }}"><button>Editar</button></a>
-          </td>
+        <td>{{ c.email }}</td>
+        <td>
+          <button onclick="excluirConsulta('{{ c.id }}')">Excluir</button>
+          <a href="/editar_consulta/{{ c.id }}"><button>Editar</button></a>
+        </td>
         {%endif%}
       </tr>
       {% endfor %}
