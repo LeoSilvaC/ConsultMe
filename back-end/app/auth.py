@@ -23,5 +23,8 @@ def efetua_login():
 @auth_bp.route('/logout')
 def logout():
     session.clear()
-    flash("Logout realizado com sucesso.")
     return redirect(url_for('auth.efetua_login'))
+
+@auth_bp.route('/acesso_negado')
+def acesso_negado():
+    return render_template('auth/acesso_negado.html')
