@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
     <title>Página de Login</title>
   </head>
   <body>
@@ -19,7 +16,7 @@
         {% endfor %}
       </div>
       {% endif %} {% endwith %}
-      <form action="{{ url_for('efetua_login') }}" method="POST">
+      <form action="{{ url_for('auth.efetua_login') }}" method="POST">
         <div class="input-group">
           <label for="username">Email:</label>
           <input type="text" id="username" name="email" required />

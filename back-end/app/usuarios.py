@@ -17,17 +17,17 @@ def efetua_login():
         if usuario_existe:
             session['usuario_id'] = usuario_existe.email
             session['usuario_tipo'] = usuario_existe.tipo
-            return redirect(url_for('listar_consultas'))
+            return redirect(url_for('consulta.listar_consultas'))
         else:
             flash('Email/Senha está incorreto')
    
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 @usuarios_bp.route('/cadastro', methods=['GET'])
 @login_required
 @admin_required
 def exibe_formulario_usuario():
-    return render_template('cadastra_usuario.html')
+    return render_template('usuarios/cadastra_usuario.html')
 
 #Cadastro de novo usuario
 @usuarios_bp.route('/cadastra_usuario', methods=["GET", "POST"])
@@ -54,9 +54,9 @@ def cadastra_usuario():
         else:
             db.session.add(novo_usuario)
             db.session.commit()
-            return redirect(url_for('efetua_login'))
+            return redirect(url_for('auth.efetua_login'))
 
-    return render_template('cadastra_usuario.html')
+    return render_template('usuarios/cadastra_usuario.html')
 
 @usuarios_bp.route('/listar_usuarios', methods=['GET'])
 @login_required
@@ -70,7 +70,7 @@ def listar_usuarios():
         usuarios = usuarios.filter(func.lower(Usuario.nome).like(f"%{nome.lower()}%"))
 
     usuarios = usuarios.all()
-    return render_template('listar_usuarios.html', usuarios=usuarios)
+    return render_template('usuarios/listar_usuarios.html', usuarios=usuarios)
 
 @usuarios_bp.route('/usuarios/<int:id>', methods=['DELETE'])
 @login_required

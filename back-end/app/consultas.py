@@ -29,7 +29,7 @@ def admin_required(f):
 def logout():
     session.clear()
     flash("Logout realizado com sucesso.")
-    return redirect(url_for('efetua_login'))
+    return redirect(url_for('auth.efetua_login'))
 
 
 #Rota do formulário para criação de uma nova consulta
@@ -37,7 +37,7 @@ def logout():
 @login_required
 @admin_required
 def exibe_formulario():
-    return render_template('cadastra_consulta.html')
+    return render_template('consultas/cadastra_consulta.html')
 
 #Rota que faz o processo de receber e adicionar uma nova consulta 
 @consultas_bp.route('/consultas', methods=['POST'])
@@ -61,7 +61,7 @@ def cadastra_consulta():
     db.session.add(nova_consulta)
     db.session.commit()
     flash('Consulta cadastrada com sucesso!')
-    return redirect(url_for('listar_consultas'))
+    return redirect(url_for('consultas.listar_consultas'))
     
 #Rota que lista as consultas agendadas
 @consultas_bp.route('/listar_consultas', methods=['GET'])
@@ -83,7 +83,7 @@ def listar_consultas():
     today = datetime.today().date()  
     consultas.sort(key=lambda c: abs((c.data - today).days))
 
-    return render_template('listar_consultas.html', consultas=consultas)
+    return render_template('consultas/listar_consultas.html', consultas=consultas)
 
 #Rota que remove uma consulta
 @consultas_bp.route('/consultas/<int:id>', methods=['DELETE'])
@@ -105,7 +105,7 @@ def excluir_consulta(id):
 @admin_required
 def editar_consulta(id):
     consulta = Consulta.query.get_or_404(id)
-    return render_template('editar_consulta.html', consulta=consulta)
+    return render_template('consultas/editar_consulta.html', consulta=consulta)
 
 #Rota que atualiza a consulta editada
 @consultas_bp.route('/atualizar_consulta/<int:id>', methods=['POST'])
@@ -121,4 +121,4 @@ def atualizar_consulta(id):
     consulta.email = request.form['email']
     db.session.commit()
     flash('Cadastro editado com sucesso')
-    return redirect(url_for('listar_consultas'))
+    return redirect(url_for('consultas.listar_consultas'))

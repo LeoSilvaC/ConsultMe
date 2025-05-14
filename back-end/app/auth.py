@@ -15,10 +15,10 @@ def efetua_login():
             session['usuario_tipo'] = usuario.tipo
             session['usuario_nome'] = usuario.nome
             flash('Login realizado com sucesso!', 'success')
-            return redirect(url_for('consultas.lista_consultas'))
+            return redirect(url_for('consultas.listar_consultas'))
         else:
             flash('E-mail ou senha inválidos', 'danger')
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 @auth_bp.route('/logout')
 def logout():
@@ -28,7 +28,7 @@ def logout():
 
 @auth_bp.route('/cadastro')
 def exibe_formulario_usuario():
-    return render_template('cadastra_usuario.html')
+    return render_template('usuarios/cadastra_usuario.html')
 
 @auth_bp.route('/cadastra_usuario', methods=["POST"])
 def cadastra_usuario():
