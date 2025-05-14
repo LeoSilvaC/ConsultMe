@@ -20,10 +20,9 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get('usuario_tipo') != 'admin':
-            return render_template('acesso_negado.html')
+            return redirect(url_for('auth.acesso_negado'))
         return f(*args, **kwargs)
     return decorated_function
-
 
 @consultas_bp.route('/logout')
 def logout():

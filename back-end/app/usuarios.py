@@ -91,7 +91,7 @@ def excluir_usuario(id):
 @admin_required
 def editar_usuario(id):
     usuario = Usuario.query.get_or_404(id)
-    return render_template('editar_usuario.html', usuario=usuario)
+    return render_template('usuarios/editar_usuario.html', usuario=usuario)
 
 @usuarios_bp.route('/atualizar_usuario/<int:id>', methods=['POST'])
 @login_required
@@ -109,4 +109,4 @@ def atualizar_usuario(id):
     usuario.senha = request.form['senha']
     db.session.commit()
     flash('Usuario editado com sucesso')
-    return redirect(url_for('listar_usuarios'))
+    return redirect(url_for('usuarios.listar_usuarios'))

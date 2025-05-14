@@ -31,17 +31,11 @@
   </head>
   <body>
     <div id="mensagem" class="mensagem" style="display: none"></div>
-  
-    {% with mensagens = get_flashed_messages() %} {% if mensagens %}
-    <div class="mensagem">
-      {% for msg in mensagens %}
-      <p>{{ msg }}</p>
-      {% endfor %}
-    </div>
-    {% endif %} {% endwith %}
+
     <div class="header-btn">
       <div class="container-nav">
-        <h2>Usuarios</h2>{%if session['usuario_tipo'] == 'admin'%}
+        <h2>Usuarios</h2>
+        {%if session['usuario_tipo'] == 'admin'%}
           <a href="/listar_consultas"><button type="button">Consultas</button></a>
         {%endif%}
       </div>

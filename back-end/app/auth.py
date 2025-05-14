@@ -25,25 +25,3 @@ def logout():
     session.clear()
     flash("Logout realizado com sucesso.")
     return redirect(url_for('auth.efetua_login'))
-
-@auth_bp.route('/cadastro')
-def exibe_formulario_usuario():
-    return render_template('usuarios/cadastra_usuario.html')
-
-@auth_bp.route('/cadastra_usuario', methods=["POST"])
-def cadastra_usuario():
-    nome = request.form['nome']
-    email = request.form['email']
-    senha = request.form['senha']
-    tipo = request.form['tipo']
-
-    usuario_existente = Usuario.query.filter_by(email=email).first()
-    if usuario_existente:
-        flash('E-mail já cadastrado. Use outro.', 'warning')
-        return redirect(url_for('auth.exibe_formulario_usuario'))
-
-    novo_usuario = Usuario(nome=nome, email=email, senha=senha, tipo=tipo)
-    db.session.add(novo_usuario)
-    db.session.commit()
-    flash('Usuário cadastrado com sucesso! Faça login.', 'success')
-    return redirect(url_for('auth.efetua_login'))

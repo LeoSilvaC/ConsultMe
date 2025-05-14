@@ -39,9 +39,9 @@
         {%endif%}
       </div>
       <div>
-        <a href="/cadastra_consulta"
-          ><button class="btn-nova-consulta">Nova Consulta</button></a
-        >
+        {%if session['usuario_tipo'] == 'admin'%}
+        <a href="/cadastra_consulta"><button class="btn-nova-consulta">Nova Consulta</button></a>
+        {%endif%}
         <a href="/logout"><button class="btn-logout">Sair</button></a>
       </div>
     </div>

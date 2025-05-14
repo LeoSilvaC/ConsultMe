@@ -6,16 +6,6 @@
     <title>Editar Consulta</title>
   </head>
   <body>
-    {% with mensagens = get_flashed_messages() %}
-      {% if mensagens %}
-        <div class="mensagem">
-          {% for msg in mensagens %}
-            <p>{{ msg }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-    
     <h2>Editar Consulta</h2>
     <form action="/atualizar_consulta/{{ consulta.id }}" method="POST">
       <label>Nome:</label><br />

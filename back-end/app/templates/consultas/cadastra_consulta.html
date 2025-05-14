@@ -9,14 +9,6 @@
     <title>Cadastro de Consulta</title>
   </head>
   <body>
-    {% with mensagens = get_flashed_messages() %} {% if mensagens %}
-    <div class="mensagem">
-      {% for msg in mensagens %}
-      <p>{{ msg }}</p>
-      {% endfor %}
-    </div>
-    {% endif %} {% endwith %}
-
     <h2>Cadastro de Consulta</h2>
     <form action="/consultas" method="POST">
       <label>Nome:</label><br />
