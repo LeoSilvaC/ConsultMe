@@ -108,5 +108,4 @@ def atualizar_usuario(id):
     
     usuario.senha = request.form['senha']
     db.session.commit()
-    flash('Usuario editado com sucesso')
     return redirect(url_for('usuarios.listar_usuarios'))

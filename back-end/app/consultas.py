@@ -59,7 +59,6 @@ def cadastra_consulta():
     
     db.session.add(nova_consulta)
     db.session.commit()
-    flash('Consulta cadastrada com sucesso!')
     return redirect(url_for('consultas.listar_consultas'))
     
 #Rota que lista as consultas agendadas
@@ -119,5 +118,4 @@ def atualizar_consulta(id):
     consulta.hora = request.form['hora']
     consulta.email = request.form['email']
     db.session.commit()
-    flash('Cadastro editado com sucesso')
     return redirect(url_for('consultas.listar_consultas'))
