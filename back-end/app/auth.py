@@ -14,7 +14,6 @@ def efetua_login():
             session['usuario_id'] = usuario.id
             session['usuario_tipo'] = usuario.tipo
             session['usuario_nome'] = usuario.nome
-            flash('Login realizado com sucesso!', 'success')
             return redirect(url_for('consultas.listar_consultas'))
         else:
             flash('E-mail ou senha inválidos', 'danger')
