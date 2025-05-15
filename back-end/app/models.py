@@ -3,11 +3,12 @@ from . import db
 #Criação de consulta no Banco de Dados
 class Consulta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer)
     nome = db.Column(db.String(255))
     especialidade = db.Column(db.String(40))
     data = db.Column(db.Date)
     hora = db.Column(db.Integer)
-    email = db.Column(db.String(100))
+    email = db.Column(db.String(100), nullable=False)
 
 ##Criação de Usuários no Banco de Dados 
 class Usuario(db.Model):
