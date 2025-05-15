@@ -1,0 +1,37 @@
+# Ambientes virtuais
+venv/
+.env/
+ENV/
+env.bak/
+venv.bak/
+instance/
+
+# Banco de dados SQLite
+*.sqlite3
+*.db
+*.db-journal
+
+# Pycache e arquivos compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configuração do VS Code
+.vscode/
+
+# Arquivos temporários do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log
+*.log
+
+# Arquivos de teste
+.coverage
+.tox/
+.noseids
+
+# Arquivos de build/distribuição Python
+build/
+dist/
+*.egg-info/
