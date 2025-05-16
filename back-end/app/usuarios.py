@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Usuario
 from .consultas import login_required, admin_required
 from sqlalchemy import  and_, func
@@ -14,7 +15,7 @@ def efetua_login():
         
         usuario_existe = Usuario.query.filter_by(email=email, senha=senha).first()
         
-        if usuario_existe:
+        if usuario_existe and check_password_hash(usuario_existe.senha, senha):
             session['usuario_id'] = usuario_existe.email
             session['usuario_tipo'] = usuario_existe.tipo
             return redirect(url_for('consulta.listar_consultas'))
@@ -37,7 +38,7 @@ def cadastra_usuario():
     if request.method == "POST":
         nome = request.form['nome']
         email = request.form['email']
-        senha = request.form['senha']
+        senha = generate_password_hash(request.form['senha']) 
         tipo = request.form['tipo']
 
         novo_usuario = Usuario(
@@ -54,7 +55,7 @@ def cadastra_usuario():
         else:
             db.session.add(novo_usuario)
             db.session.commit()
-            return redirect(url_for('auth.efetua_login'))
+            return redirect(url_for('usuarios.listar_usuarios'))
 
     return render_template('usuarios/cadastra_usuario.html')
 

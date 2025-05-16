@@ -61,7 +61,6 @@
         <th>Nome</th>
         <th>Email</th>
         <th>Tipo</th>
-        <th>Senha</th>
         <th>Ações</th>
       </tr>
 
@@ -74,7 +73,6 @@
           {% if u.tipo == 'admin' %} Administrador {% elif u.tipo == 'usuario'
           %} Usuário {% else %} {{ u.tipo }} {% endif %}
         </td>
-        <td>{{ u.senha }}</td>
         <td>
           <button onclick="excluirConsulta('{{ u.id }}')">Excluir</button>
           <a href="/editar_usuario/{{ u.id }}"><button>Editar</button></a>

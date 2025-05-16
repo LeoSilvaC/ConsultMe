@@ -3,7 +3,7 @@ from . import db
 #Criação de consulta no Banco de Dados
 class Consulta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     nome = db.Column(db.String(255))
     especialidade = db.Column(db.String(40))
     data = db.Column(db.Date)
