@@ -54,7 +54,8 @@ def cadastra_consulta():
         especialidade = especialidade,
         data = data,
         hora = hora,
-        email = email
+        email = email,
+        usuario_id=session['usuario_id']
         )
     
     db.session.add(nova_consulta)
@@ -69,15 +70,20 @@ def listar_consultas():
     data = request.args.get('data')
     consultas = Consulta.query  
     
+    if session.get("usuario_tipo") == 'admin':
+        consultas = Consulta.query
+    else:
+        consultas = Consulta.query.filter_by(usuario_id=session.get('usuario_id'))
+
     if nome:
-        nome.lower()
-        consultas = consultas.filter(func.lower(Consulta.nome).like(f"%{nome.lower()}%"))
+        nome = nome.lower()
+        consultas = consultas.filter(func.lower(Consulta.nome).like(f"%{nome}%"))
 
     if data:
-        consultas = consultas.filter(func.date(Consulta.data) == data)
-        
-    consultas = consultas.all()
+        data_formatada = datetime.strptime(data, "%Y-%m-%d").date()
+        consultas = consultas.filter(Consulta.data == data_formatada)
     
+    consultas = consultas.all()
     today = datetime.today().date()  
     consultas.sort(key=lambda c: abs((c.data - today).days))
 

@@ -18,3 +18,4 @@ class Usuario(db.Model):
     senha = db.Column(db.String(100), nullable=False)
     tipo = db.Column(db.String(10), nullable=False)  # 'admin' ou 'usuario'
 
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))  # <-- ESTE DEVE EXISTIR
