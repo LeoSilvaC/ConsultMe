@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 from .models import Consulta
+from app.models import Usuario
 from . import db
 from datetime import datetime
 from functools import wraps
@@ -32,18 +33,19 @@ def logout():
 
 
 #Rota do formulário para criação de uma nova consulta
-@consultas_bp.route('/cadastra_consulta')
+@consultas_bp.route('/cadastra_consulta', methods = ['GET'])
 @login_required
 @admin_required
 def exibe_formulario():
-    return render_template('consultas/cadastra_consulta.html')
+    usuarios = Usuario.query.all()
+    return render_template('consultas/cadastra_consulta.html', usuarios=usuarios)
 
 #Rota que faz o processo de receber e adicionar uma nova consulta 
 @consultas_bp.route('/consultas', methods=['POST'])
 @login_required
 @admin_required
 def cadastra_consulta():
-    nome = request.form['nome']
+    nome = request.form['usuario_id']
     especialidade = request.form['especialidade']
     data = datetime.strptime(request.form['data'], '%Y-%m-%d').date()
     hora = request.form['hora']
@@ -68,7 +70,7 @@ def cadastra_consulta():
 def listar_consultas():
     nome = request.args.get('nome')
     data = request.args.get('data')
-    consultas = Consulta.query  
+    consultas = Consulta.query
     
     if session.get("usuario_tipo") == 'admin':
         consultas = Consulta.query

@@ -9,6 +9,8 @@ class Consulta(db.Model):
     data = db.Column(db.Date)
     hora = db.Column(db.Integer)
     email = db.Column(db.String(100), nullable=False)
+    usuario = db.relationship('Usuario', back_populates = 'consultas')
+
 
 ##Criação de Usuários no Banco de Dados 
 class Usuario(db.Model):
@@ -16,6 +18,6 @@ class Usuario(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.String(10), nullable=False)  # 'admin' ou 'usuario'
+    tipo = db.Column(db.String(10), nullable=False)
 
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))  # <-- ESTE DEVE EXISTIR
+    consultas = db.relationship('Consulta', back_populates = 'usuario')
