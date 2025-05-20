@@ -14,9 +14,10 @@
       <label>Nome:</label><br />
 
       <select name="usuario_id">
-        {%for u in usuarios%}
-          <option>{{u.nome}}</option>
-        {%endfor%}
+        <option value="">-- Selecione um usuário --</option>
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}">{{ usuario.nome }} ({{ usuario.email }})</option>
+        {% endfor %}
       </select><br /><br />
 
       <label>Especialidade:</label><br />

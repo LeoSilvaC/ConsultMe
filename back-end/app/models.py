@@ -1,4 +1,5 @@
-from . import db
+from app import db
+from flask_login import UserMixin
 
 #Criação de consulta no Banco de Dados
 class Consulta(db.Model):
@@ -13,7 +14,7 @@ class Consulta(db.Model):
 
 
 ##Criação de Usuários no Banco de Dados 
-class Usuario(db.Model):
+class Usuario(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)

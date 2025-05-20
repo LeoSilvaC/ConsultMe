@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Usuario
 from .consultas import login_required, admin_required
 from sqlalchemy import  and_, func
-from . import db
+from app import db
 
 usuarios_bp = Blueprint('usuarios', __name__)
 
