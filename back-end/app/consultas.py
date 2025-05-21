@@ -46,20 +46,19 @@ def exibe_formulario():
 @login_required
 @admin_required
 def cadastra_consulta():
-    
     usuario_id = request.form['usuario_id']
     especialidade = request.form['especialidade']
     data = datetime.strptime(request.form['data'], '%Y-%m-%d').date()
     hora = request.form['hora']
-    email = request.form['email']
+    usuario = Usuario.query.get(usuario_id)
     
     nova_consulta = Consulta(
-        nome = nome,
+        nome = usuario.nome if usuario else '',
         usuario_id=usuario_id,
         especialidade = especialidade,
         data = data,
         hora = hora,
-        email = email,
+        email = usuario.email
         )
     
     db.session.add(nova_consulta)

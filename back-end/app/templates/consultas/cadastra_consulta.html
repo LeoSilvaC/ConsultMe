@@ -2,26 +2,25 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <title>Cadastro de Consulta</title>
   </head>
   <body>
     <h2>Cadastro de Consulta</h2>
     <form action="/consultas" method="POST">
-      <label>Nome:</label><br />
-
-      <select name="usuario_id">
-        <option value="">-- Selecione um usuário --</option>
-        {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}">{{ usuario.nome }} ({{ usuario.email }})</option>
-        {% endfor %}
-      </select><br /><br />
-
+      <div class="form-group">
+        <label for="usuario_id">Nome:</label>
+        <select name="usuario_id" id="usuario_id" class="form-control" required>
+            <option value="">-- Selecione um usuário --</option>
+            {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}">{{ usuario.nome }} ({{ usuario.email }})</option>
+            {% endfor %}
+        </select>
+      </div>
+      
       <label>Especialidade:</label><br />
-      <input type="text" name="especialidade" /><br /><br />
+      <input  type="text" name="especialidade" /><br /><br />
 
       <label>Data:</label><br />
       <input type="date" name="data" /><br /><br />
@@ -29,14 +28,54 @@
       <label>Hora:</label><br />
       <input type="time" name="hora" /><br /><br />
 
-      <label>Email:</label><br />
-      <input type="email" name="email" /><br /><br />
-
       <div class="btns-finaliza">
         <a href="/listar_consultas"><button type="button">Cancelar</button></a>
         <button type="submit">Cadastrar</button>
       </div>
-      
     </form>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#usuario_id').select2({
+        placeholder: 'Digite o nome do paciente',
+        ajax: {
+          url: '/buscar_usuarios',
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+              q: params.term
+            };
+          },
+          processResults: function (data) {
+            return {
+              results: data.map(function (usuario) {
+                return { id: usuario.id, text: usuario.nome };
+              })
+            };
+          },
+          cache: true
+        },
+        language: {
+          inputTooShort: function () {
+            return 'Digite pelo menos 1 caractere...';
+          },
+          searching: function () {
+            return 'Procurando...';
+          },
+          noResults: function () {
+            return 'Nenhum paciente encontrado';
+          },
+          errorLoading: function () {
+            return 'Erro ao carregar os resultados';
+          }
+        },
+        minimumInputLength: 1
+      });
+    });
+  </script>
+
   </body>
 </html>

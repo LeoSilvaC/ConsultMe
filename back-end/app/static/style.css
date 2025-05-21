@@ -146,3 +146,36 @@ input[type="password"], select {
 .container h1 {
     color: #cc0000;
 }
+
+/* Corrige altura da caixa select2 */
+.select2-container .select2-selection--single {
+  height: 42px !important;
+  padding: 6px 12px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  background-color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+  font-size: 16px;
+}
+
+/* Corrige o texto dentro da caixa */
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #333;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  line-height: normal !important;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Corrige seta de dropdown */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 42px !important;
+  top: 0 !important;
+  right: 10px;
+}
+
