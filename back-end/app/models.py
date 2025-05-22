@@ -16,7 +16,6 @@ class Consulta(db.Model):
 ##Criação de Usuários no Banco de Dados 
 class Usuario(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     senha = db.Column(db.String(100), nullable=False)
