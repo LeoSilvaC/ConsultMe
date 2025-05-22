@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user  
 from app.models import Usuario
-from . import db
+from app import db
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -9,10 +10,10 @@ auth_bp = Blueprint('auth', __name__)
 def efetua_login():
     if request.method == 'POST':
         email = request.form['email']
-        senha = request.form['senha']
         usuario = Usuario.query.filter_by(email=email).first()
         
         if usuario:
+            login_user(usuario)
             session['usuario_id'] = usuario.id
             session['usuario_tipo'] = usuario.tipo
             session['usuario_nome'] = usuario.nome

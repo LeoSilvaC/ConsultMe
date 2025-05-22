@@ -46,20 +46,8 @@
       </div>
     </div>
     <form class="form-pesquisa" action="">
-      <input
-        type="text"
-        name="nome"
-        value="{{ request.args.get('nome', '') }}"
-        placeholder="Escreva o nome do paciente"
-        id=""
-      />
-      <input
-        type="date"
-        name="data"
-        value="{{ request.args.get('data', '') }}"
-        placeholder="Data"
-        id=""
-      />
+      <input type="text" name="nome" value="{{ request.args.get('nome', '') }}" placeholder="Escreva o nome do paciente" id=""/> 
+      <input type="date" name="data" value="{{ request.args.get('data', '') }}" placeholder="Data" id="" />
       <button type="submit">Buscar</button>
     </form>
 

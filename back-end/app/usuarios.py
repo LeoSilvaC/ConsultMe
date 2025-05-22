@@ -1,9 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Usuario
 from .consultas import login_required, admin_required
 from sqlalchemy import  and_, func
-from . import db
+from app import db
 
 usuarios_bp = Blueprint('usuarios', __name__)
 
@@ -110,3 +110,12 @@ def atualizar_usuario(id):
     usuario.senha = request.form['senha']
     db.session.commit()
     return redirect(url_for('usuarios.listar_usuarios'))
+
+@usuarios_bp.route('/buscar_usuarios')
+def buscar_usuarios():
+    termo = request.args.get('q', '')
+    usuarios = Usuario.query.filter(Usuario.nome.ilike(f"%{termo}%")).all()
+
+    resultados = [{"id": u.id, "nome": u.nome} for u in usuarios]
+    return jsonify(resultados)
+

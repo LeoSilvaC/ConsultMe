@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
+from flask_login import current_user, login_required, logout_user
 from .models import Consulta
-from . import db
+from app.models import Usuario
+from app import db
 from datetime import datetime
 from functools import wraps
 from sqlalchemy import  and_, func
@@ -26,36 +28,37 @@ def admin_required(f):
 
 @consultas_bp.route('/logout')
 def logout():
-    session.clear()
+    logout_user()
     flash("Logout realizado com sucesso.")
     return redirect(url_for('auth.efetua_login'))
 
 
 #Rota do formulário para criação de uma nova consulta
-@consultas_bp.route('/cadastra_consulta')
+@consultas_bp.route('/cadastra_consulta', methods = ['GET'])
 @login_required
 @admin_required
 def exibe_formulario():
-    return render_template('consultas/cadastra_consulta.html')
+    usuarios = Usuario.query.all()
+    return render_template('consultas/cadastra_consulta.html', usuarios=usuarios)
 
 #Rota que faz o processo de receber e adicionar uma nova consulta 
 @consultas_bp.route('/consultas', methods=['POST'])
 @login_required
 @admin_required
 def cadastra_consulta():
-    nome = request.form['nome']
+    usuario_id = request.form['usuario_id']
     especialidade = request.form['especialidade']
     data = datetime.strptime(request.form['data'], '%Y-%m-%d').date()
     hora = request.form['hora']
-    email = request.form['email']
+    usuario = Usuario.query.get(usuario_id)
     
     nova_consulta = Consulta(
-        nome = nome,
+        nome = usuario.nome if usuario else '',
+        usuario_id=usuario_id,
         especialidade = especialidade,
         data = data,
         hora = hora,
-        email = email,
-        usuario_id=session['usuario_id']
+        email = usuario.email
         )
     
     db.session.add(nova_consulta)
@@ -68,24 +71,12 @@ def cadastra_consulta():
 def listar_consultas():
     nome = request.args.get('nome')
     data = request.args.get('data')
-    consultas = Consulta.query  
-    
-    if session.get("usuario_tipo") == 'admin':
-        consultas = Consulta.query
+    consultas = Consulta.query
+
+    if current_user.tipo == 'admin':
+            consultas = Consulta.query.all()
     else:
-        consultas = Consulta.query.filter_by(usuario_id=session.get('usuario_id'))
-
-    if nome:
-        nome = nome.lower()
-        consultas = consultas.filter(func.lower(Consulta.nome).like(f"%{nome}%"))
-
-    if data:
-        data_formatada = datetime.strptime(data, "%Y-%m-%d").date()
-        consultas = consultas.filter(Consulta.data == data_formatada)
-    
-    consultas = consultas.all()
-    today = datetime.today().date()  
-    consultas.sort(key=lambda c: abs((c.data - today).days))
+            consultas = Consulta.query.filter_by(usuario_id=current_user.id).all()
 
     return render_template('consultas/listar_consultas.html', consultas=consultas)
 
